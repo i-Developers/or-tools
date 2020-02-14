@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-%include "stdint.i"
-
 %include "ortools/base/base.i"
 
 %{
@@ -209,3 +207,30 @@
   $1 = &result;
 %}
 %enddef // REGULAR_MATRIX_AS_CSHARP_ARRAY
+
+// SWIG Macros to use std::vector<Type> and const std::vector<Type>& in .Net,
+// where Type is an atomic numeric type.
+//
+// Normally we'd simply use %include "std_vector.i" with the %template
+// directive (see http://www.swig.org/Doc1.3/Library.html#Library_nn15), but
+// in google3 we can't, because exceptions are forbidden.
+//
+%include "std_vector.i"
+%template(IntVector) std::vector<int>;
+%template(IntVectorVector) std::vector<std::vector<int> >;
+%template(Int64Vector) std::vector<int64>;
+%template(Int64VectorVector) std::vector<std::vector<int64> >;
+%template(DoubleVector) std::vector<double>;
+%template(DoubleVectorVector) std::vector<std::vector<double> >;
+
+VECTOR_AS_CSHARP_ARRAY(int, int, int, IntVector);
+VECTOR_AS_CSHARP_ARRAY(int64, int64, long, Int64Vector);
+VECTOR_AS_CSHARP_ARRAY(double, double, double, DoubleVector);
+
+JAGGED_MATRIX_AS_CSHARP_ARRAY(int, int, int, IntVectorVector);
+//REGULAR_MATRIX_AS_CSHARP_ARRAY(int, int, int, IntVectorVector);
+JAGGED_MATRIX_AS_CSHARP_ARRAY(int64, int64, long, Int64VectorVector);
+//REGULAR_MATRIX_AS_CSHARP_ARRAY(int64, int64, long, Int64VectorVector);
+JAGGED_MATRIX_AS_CSHARP_ARRAY(double, double, double, DoubleVectorVector);
+//REGULAR_MATRIX_AS_CSHARP_ARRAY(double, double, double, DoubleVectorVector);
+

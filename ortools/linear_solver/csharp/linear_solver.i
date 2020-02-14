@@ -59,9 +59,6 @@ class MPSolutionResponse;
 %typemap(csclassmodifiers) operations_research::MPVariable "public partial class"
 %typemap(csclassmodifiers) operations_research::MPSolver "public partial class"
 
-%template(MpDoubleVector) std::vector<double>;
-VECTOR_AS_CSHARP_ARRAY(double, double, double, MpDoubleVector);
-
 %define CONVERT_VECTOR(CTYPE, TYPE)
 SWIG_STD_VECTOR_ENHANCED(CTYPE*);
 %template(TYPE ## Vector) std::vector<CTYPE*>;
